@@ -1,8 +1,0 @@
-branch=main
-label=v1.0.0
-title=Handy Chat [v1.0.0]
-package=org.earthisgreen.funcgemmachat
-package_slot=develop
-side_by_side=0
-apk=HandyChat-main-v1.0.0-debug.apk
-built_at=2026-08-05T20:15:43Z

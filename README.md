@@ -1,8 +1,23 @@
-# HandyChat
+# Handy Chat (v1.0.1)
 
-A Python **Kivy / KivyMD** mobile application that runs HuggingFace causal language models — including Google's **FunctionGemma** — directly on your device.  Users can chat via text or recorded audio, configure every inference hyperparameter, and watch FunctionGemma call built-in tools (calculator, weather, web search, time/date, reminders) in real time.
+A **Kivy / KivyMD** Android app that runs **FunctionGemma** on the phone with **LiteRT-LM**. Chat in text, load a Mobile Actions model, and let the model open real device actions — calls, messages, email, flashlight, brightness, camera, maps, calendar, contacts, and more.
 
 Inspired by the **Mobile Actions** feature of [Google AI Edge Gallery](https://play.google.com/store/apps/details?id=com.google.ai.edge.gallery).
+
+**Install:** `HandyChat.apk` (version 1.0.1, package `org.earthisgreen.funcgemmachat`).
+
+---
+
+## What's in this version
+
+- **On-device chat.** Replies stay on the phone. The status bar shows the loaded model and how long the last reply took.
+- **Two ready-to-load models.** Extended covers the 15 Mobile Actions, including the flashlight. Combined keeps those and adds Wi-Fi, maps, calendar, and contacts, for 21 tools in one set.
+- **Tool cards in the conversation.** Each call shows the action, the details the model passed, and what the phone did.
+- **Model function files.** The matching tool set is selected with the model. A custom set can be chosen from the phone's files and is listed with the others.
+- **Multilingual composer.** The message box keeps up with right-to-left text, including Farsi.
+- **Gated models.** A Hugging Face token in Settings unlocks packs that require a license accept.
+
+Some actions hand off to another app (Phone, Messages, Mail, Camera, Maps, Calendar, Contacts). Brightness may ask once for permission to change system settings. Flashlight uses the camera light.
 
 ---
 
@@ -10,9 +25,9 @@ Inspired by the **Mobile Actions** feature of [Google AI Edge Gallery](https://p
 
 | Chat Tab | Model Tab | Settings Tab |
 |---|---|---|
-| Text + audio input | Model load / unload | HF model ID input |
-| FunctionGemma tool cards | Live status & memory | Parameter sliders |
-| Multi-turn history | Preset model shortcuts | System prompt editor |
+| Text chat and tool cards | Load a LiteRT-LM model | Hugging Face token |
+| Multilingual composer | Recommended and custom models | Inference sliders |
+| Reply time in the status bar | Function files for the active model | System prompt |
 
 ---
 
@@ -91,23 +106,33 @@ When a model whose ID contains `functiongemma`, `function-gemma`, or
 4. `FunctionExecutor.execute()` runs the matching Python callable.
 5. A `FunctionCallBubble` card is added to the chat showing name, args, and result.
 
-### Built-in tools
+### Mobile Actions (Extended, 15 tools)
 
-| Function | Description |
+| Action | What it does |
 |---|---|
-| `get_current_time` | Returns the current local time (HH:MM:SS) |
-| `get_current_date` | Returns today's date as a readable string |
-| `calculate` | Evaluates a safe math expression (`sqrt`, `sin`, `cos`, `log`, etc.) |
-| `get_weather` | Returns mock weather data for a given city |
-| `web_search` | Returns mock search results for a query |
-| `set_reminder` | Schedules a reminder N minutes from now |
+| Email, call, SMS | Opens the composer or dialer with the details filled in |
+| Flashlight | Turns the camera light on or off |
+| Screenshot | Captures the screen |
+| Battery, Bluetooth | Reports the current status |
+| Brightness | Reads, raises, lowers, or sets the screen level (0–100) |
+| Camera | Opens the camera and takes a photo |
+| Apps | Lists installed apps, or opens one by name |
 
-> **Note:** `get_weather` and `web_search` return *simulated* data.  
-> Replace their implementations in `app/core/function_executor.py` with real API calls if needed.
->
-> **Tool return format (required):** every function result must be a dictionary in this exact shape:
-> `{"ToolResponseForAssistant": "ALL*COMMENTS*TO*THE*ASSISTANT"}`.
-> This applies to built-in, global custom, and model-specific functions.
+### Combined model (21 tools)
+
+Everything above, plus:
+
+| Action | What it does |
+|---|---|
+| Wi-Fi | Opens Wi-Fi settings |
+| Map | Opens Maps on a place, business, or address |
+| Calendar | Starts a new event with a title and time |
+| Contact | Starts a new contact with name, phone, and email |
+
+Utility tools such as clock, date, and a simple calculator are also available. Weather and web search in that set return sample text, not a live lookup.
+
+> **Tool return format:** every function result is a dictionary:
+> `{"ToolResponseForAssistant": "<message for the model>"}`.
 
 ---
 
