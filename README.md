@@ -247,29 +247,6 @@ adb shell run-as org.earthisgreen.funcgemmachat ls -la files/app/.kivy/logs 2>/d
 
 (`run-as` works on debug builds signed with a debug key.)
 
-### Android Python dependencies (`buildozer.spec`)
-
-Buildozer / python-for-android **does not install pip transitive dependencies** automatically. Every import used at runtime must appear in `requirements` in `buildozer.spec`.
-
-| Layer | Packages |
-|-------|----------|
-| **UI** | `kivy`, `kivymd`, `filetype`, `pillow` |
-| **HTTP / Hub download** | `requests`, `certifi`, `urllib3`, `charset-normalizer`, `idna`, `httpx`, `httpcore`, `h11`, `anyio`, `sniffio`, `filelock`, `fsspec`, `tqdm` |
-| **HuggingFace Hub** | `huggingface_hub`, `packaging`, `typing_extensions` |
-| **Transformers / tokenizer** | `transformers`, `tokenizers`, `safetensors`, `numpy`, `pyyaml`, `regex`, `typer`, `click`, `rich`, `annotated-doc`, `shellingham` |
-| **On-device inference** | `ai_edge_litert`, `litert-lm-api-nightly`, `litert-lm` |
-
-**`regex` / `transformers` on Android:** p4a ships **`regex==2019.6.8`**. Newer **`transformers`** rejects that at import. The APK pins **`transformers==5.2.0`** when possible, and `model_manager.py` applies an Android **metadata shim** so version checks see a compatible regex. Rebuild after changing Python code: `./scripts/docker_android_debug.sh`.
-
-If the app crashes or model load fails with `No module named '…'` or a version mismatch, add the missing name to `requirements` and rebuild. Check logcat (section above) for the exact module name.
-
-### Notes
-
-- All `android.*` settings live under `[app]` in `buildozer.spec` — there is no
-  separate `[android]` section in buildozer's schema; keys placed there are
-  silently ignored, and buildozer falls back to its defaults.
-- Build artifacts are excluded via `.gitignore` (`.buildozer/`, `bin/`).
-- Desktop-only packages (not in the Android APK): `torch`, `accelerate`, `sounddevice`, `SpeechRecognition`, etc. See `requirements.txt`.
 
 ---
 
