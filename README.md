@@ -1,6 +1,6 @@
 # Handy Chat (v1.0.1)
 
-A **Kivy / KivyMD** Android app that runs **FunctionGemma** on the phone with **LiteRT-LM**. Chat in text, load a Mobile Actions model, and let the model open real device actions — calls, messages, email, flashlight, brightness, camera, maps, calendar, contacts, and more.
+A **Kivy / KivyMD** Android app that runs a **function-calling** model, i.e. FunctionGemma 270M-it, fine-tuned over our schema-validated synthetic data on the phone with **LiteRT-LM**. Chat in text, load a Mobile Actions model, and let the model open real device actions — calls, messages, email, flashlight, brightness, camera, maps, calendar, contacts, and more.
 
 Inspired by the **Mobile Actions** feature of [Google AI Edge Gallery](https://play.google.com/store/apps/details?id=com.google.ai.edge.gallery).
 
